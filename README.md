@@ -2,6 +2,8 @@
 
 A simple authorization library.
 
+![Roadblock](http://i.imgur.com/RzJlc7D.jpg)
+
 ## Installation
 
 Add this line to your application's Gemfile:
