@@ -8,7 +8,12 @@ Gem::Specification.new do |spec|
   spec.version       = Roadblock::VERSION
   spec.authors       = ["Shane Emmons"]
   spec.email         = ["support@teamsnap.com"]
-  spec.description   = "A simple authorization library."
+  spec.description   = <<DESC
+Roadblock provides a simple interface for checking if a ruby object has the
+authority to interact with another object. The most obvious example being if
+the current user in your rails controller can read/write the object they're
+attempting to access.
+DESC
   spec.summary       = "A simple authorization library."
   spec.homepage      = "https://github.com/teamsnap/roadblock"
   spec.license       = "MIT"
