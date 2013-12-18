@@ -4,6 +4,10 @@ A simple authorization library.
 
 ![Roadblock](http://i.imgur.com/RzJlc7D.jpg)
 
+Roadblock provides a simple interface for checking if a ruby object has the authority to interact with another object. The most obvious example being if the current user in your rails controller can read/write the object they're attempting to access.
+
+Nearly all authorization libraries require heavy weight configuration and tight integration with Rails. This library was created to provide the simplest solution to the problem without requiring any external dependencies. It doesn't require Rails or any of it's subcomponents and weighs in at less than 10 LOC for the actual implementation. The library also optionally understands OAUTH scopes, something other authorization libraries do not.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -44,6 +48,10 @@ Or install it yourself as:
 
     auth.can?(:read, team)
     auth.can?(:write, team)
+    
+## Roadmap
+
+- Add optional faliure messages
 
 ## Contributing
 
