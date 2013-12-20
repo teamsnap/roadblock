@@ -1,5 +1,7 @@
 # Roadblock
 
+[![Code Climate](https://codeclimate.com/github/teamsnap/roadblock.png)](https://codeclimate.com/github/teamsnap/roadblock)
+
 A simple authorization library.
 
 ![Roadblock](http://i.imgur.com/RzJlc7D.jpg)
