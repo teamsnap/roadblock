@@ -1,5 +1,6 @@
 # Roadblock
 
+[![Gem Version](https://badge.fury.io/rb/roadblock.png)](http://badge.fury.io/rb/roadblock)
 [![Semaphore](https://semaphoreapp.com/api/v1/projects/f1ccf0c3ff7565f975caef0fdfcf649f24f033fb/118939/shields_badge.png)](https://semaphoreapp.com/minter/roadblock)
 [![Code Climate](https://codeclimate.com/github/teamsnap/roadblock.png)](https://codeclimate.com/github/teamsnap/roadblock)
 [![Coverage Status](https://coveralls.io/repos/teamsnap/roadblock/badge.png?branch=master)](https://coveralls.io/r/teamsnap/roadblock?branch=master)
