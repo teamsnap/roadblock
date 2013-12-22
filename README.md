@@ -31,30 +31,42 @@ Or install it yourself as:
 
 ## Usage
 
-    require "roadblock"
+```ruby
+require "roadblock"
 
-    class TeamAuthorizer
-      include Roadblock.authorizer
+class TeamAuthorizer
+  include Roadblock.authorizer
 
-      def can_read?(team)
-        scopes.include?("read") &&
-          user.teams.include?(team)
-      end
+  def can_read?(team)
+    scopes.include?("read") &&
+      user.teams.include?(team)
+  end
 
-      def can_write?(team)
-        scopes.include?("write_teams") && (
-          user.managed_teams.include?(team) ||
-          user.owned_teams.include?(team)
-        )
-      end
-    end
+  def can_write?(team)
+    scopes.include?("write_teams") && (
+      user.managed_teams.include?(team) ||
+      user.owned_teams.include?(team)
+    )
+  end
+end
 
-    scopes = ["read", "write_teams"] # Optional oauth scopes
-    auth = TeamAuthorizer.new(current_user, :scopes => scopes)
-    team = Team.find(params[:id])
+scopes = ["read", "write_teams"] # Optional oauth scopes
+auth = TeamAuthorizer.new(current_user, :scopes => scopes)
+team = Team.find(params[:id])
 
-    auth.can?(:read, team)
-    auth.can?(:write, team)
+auth.can?(:read, team) # or auth.can_read?(team)
+auth.can?(:write, team) # or auth.can_write?(team)
+
+# When using the #can? syntax, you can pass in an enumerable
+# #can? will then tell you if the user is able to perform the
+# action on all of the objects. `true` they can, `false` they
+# cannot.
+
+teams = Team.where(:sport => :hockey)
+
+auth.can?(:read, teams)
+auth.can?(:write, teams)
+```
     
 ## Roadmap
 
