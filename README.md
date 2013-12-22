@@ -2,6 +2,7 @@
 
 [![Semaphore](https://semaphoreapp.com/api/v1/projects/f1ccf0c3ff7565f975caef0fdfcf649f24f033fb/118939/shields_badge.png)](https://semaphoreapp.com/minter/roadblock)
 [![Code Climate](https://codeclimate.com/github/teamsnap/roadblock.png)](https://codeclimate.com/github/teamsnap/roadblock)
+[![Dependency Status](https://gemnasium.com/teamsnap/roadblock.png)](https://gemnasium.com/teamsnap/roadblock)
 
 A simple authorization library.
 
