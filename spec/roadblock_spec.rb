@@ -23,7 +23,7 @@ describe Roadblock do
       scopes = ["peekable"]
       auth = subject.new(user, :scopes => scopes)
 
-      expect(auth.can?(:peek, user)).to eq(true)
+      expect(auth.can?(:peek, user)).to be true
     end
 
     it "accepts multiple objects" do
@@ -31,7 +31,7 @@ describe Roadblock do
       scopes = ["peekable"]
       auth = subject.new(user, :scopes => scopes)
 
-      expect(auth.can?(:peek, [user, user])).to eq(true)
+      expect(auth.can?(:peek, [user, user])).to be true
     end
 
     it "requires all objects to pass authorization" do
