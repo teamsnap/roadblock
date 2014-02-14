@@ -13,7 +13,7 @@ A simple authorization library.
 
 Roadblock provides a simple interface for checking if a ruby object has the authority to interact with another object. The most obvious example being if the current user in your rails controller can read/write the object they're attempting to access.
 
-Nearly all authorization libraries require heavy weight configuration and tight integration with Rails. This library was created to provide the simplest solution to the problem without requiring any external dependencies. It doesn't require Rails or any of it's subcomponents and weighs in at less than 10 LOC for the actual implementation. The library also optionally understands OAUTH scopes, something other authorization libraries do not.
+Nearly all authorization libraries require heavy weight configuration and tight integration with Rails. This library was created to provide the simplest solution to the problem without requiring any external dependencies. It doesn't require Rails or any of it's subcomponents and weighs in at less than 100 LOC for the actual implementation (less than 25 LOC if you don't care about authorizer stacks).
 
 ## Installation
 
@@ -54,6 +54,8 @@ scopes = ["read", "write_teams"] # Optional oauth scopes
 auth = TeamAuthorizer.new(current_user, :scopes => scopes)
 team = Team.find(params[:id])
 
+# Scopes are optional, just don't pass any in if you don't want them.
+
 auth.can?(:read, team) # or auth.can_read?(team)
 auth.can?(:write, team) # or auth.can_write?(team)
 
@@ -67,7 +69,41 @@ teams = Team.where(:sport => :hockey)
 auth.can?(:read, teams)
 auth.can?(:write, teams)
 ```
-    
+
+### Middleware
+
+```ruby
+require "roadblock"
+
+class TeamAuthorizer
+  include Roadblock.authorizer
+
+  def can_read?(team)
+    user.teams.include?(team)
+  end
+end
+
+class AdminAuthorizer
+  include Roadblock.authorizer
+
+  def can?(action, object)
+    if user.is_admin?
+      true
+    else
+      yield(object)
+    end
+  end
+end
+
+stack = Roadblock::Stack.new(current_user, :scopes => scopes)
+stack.add(AdminAuthorizer, TeamAuthorizer)
+
+# Then use stack just as you would a standalone authorizer
+
+stack.can?(:read, team) # or stack.can_read?(team)
+stack.can?(:read, teams) # or stack.can_read?(teams)
+```
+
 ## Roadmap
 
 - Add optional faliure messages

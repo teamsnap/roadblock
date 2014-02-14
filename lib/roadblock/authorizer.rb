@@ -5,11 +5,15 @@ module Roadblock
       self.scopes = scopes
     end
 
-    def can?(action, objects)
-      objects = [*objects]
-      objects
-      .map { |object| send("can_#{action}?", object) }
-      .all?
+    def can?(action, object)
+      if block_given?
+        yield(object)
+      else
+        objects = [*object]
+        objects
+          .map { |obj| send("can_#{action}?", obj) }
+          .all?
+      end
     end
 
     private
