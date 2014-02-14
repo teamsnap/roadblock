@@ -6,7 +6,7 @@ require 'roadblock/version'
 Gem::Specification.new do |spec|
   spec.name          = "roadblock"
   spec.version       = Roadblock::VERSION
-  spec.authors       = ["Shane Emmons"]
+  spec.authors       = ["Shane Emmons", "Emily Dobervich"]
   spec.email         = ["oss@teamsnap.com"]
   spec.description   = <<DESC
 Roadblock provides a simple interface for checking if a ruby object has the
