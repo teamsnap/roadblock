@@ -39,13 +39,13 @@ class TeamAuthorizer
 
   def can_read?(team)
     scopes.include?("read") &&
-      user.teams.include?(team)
+      auth_object.teams.include?(team)
   end
 
   def can_write?(team)
     scopes.include?("write_teams") && (
-      user.managed_teams.include?(team) ||
-      user.owned_teams.include?(team)
+      auth_object.managed_teams.include?(team) ||
+      auth_object.owned_teams.include?(team)
     )
   end
 end
@@ -79,7 +79,7 @@ class TeamAuthorizer
   include Roadblock.authorizer
 
   def can_read?(team)
-    user.teams.include?(team)
+    auth_object.teams.include?(team)
   end
 end
 
@@ -87,7 +87,7 @@ class AdminAuthorizer
   include Roadblock.authorizer
 
   def can?(action, object)
-    if user.is_admin?
+    if auth_object.is_admin?
       true
     else
       yield(object)
