@@ -6,11 +6,11 @@ class TestAuthorizer
 
   def can_peek?(object)
     scopes.include?("peekable") &&
-      user == object
+      auth_object == object
   end
 
   def can_wink?(object)
-    user == object
+    auth_object == object
   end
 end
 

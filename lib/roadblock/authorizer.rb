@@ -1,7 +1,7 @@
 module Roadblock
   module Authorizer
-    def initialize(user, scopes: [])
-      self.user = user
+    def initialize(auth_object, scopes: [])
+      self.auth_object = auth_object
       self.scopes = scopes
     end
 
@@ -18,6 +18,6 @@ module Roadblock
 
     private
 
-    attr_accessor :user, :scopes
+    attr_accessor :auth_object, :scopes
   end
 end

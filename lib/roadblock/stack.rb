@@ -2,8 +2,8 @@ module Roadblock
   class Stack
     NULL_AUTHORIZER_PROC = lambda { |object| false }
 
-    def initialize(user, scopes: [])
-      self.user = user
+    def initialize(auth_object, scopes: [])
+      self.auth_object = auth_object
       self.scopes = scopes
       self.authorizers = []
     end
@@ -17,7 +17,7 @@ module Roadblock
 
       stack = authorizers.reverse.inject(NULL_AUTHORIZER_PROC) do |authorizer_proc, authorizer_klass|
         lambda { |obj|
-          authorizer = authorizer_klass.new(user, scopes: scopes)
+          authorizer = authorizer_klass.new(auth_object, scopes: scopes)
 
           authorizer.can?(action, obj) do |inner_obj|
             authorizer.send("can_#{action}?", inner_obj, &authorizer_proc)
@@ -46,6 +46,6 @@ module Roadblock
 
     private
 
-    attr_accessor :user, :scopes, :authorizers
+    attr_accessor :auth_object, :scopes, :authorizers
   end
 end
