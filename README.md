@@ -104,10 +104,6 @@ stack.can?(:read, team) # or stack.can_read?(team)
 stack.can?(:read, teams) # or stack.can_read?(teams)
 ```
 
-## Roadmap
-
-- Add optional faliure messages
-
 ## Contributing
 
 1. Fork it ( http://github.com/teamsnap/roadblock/fork )
