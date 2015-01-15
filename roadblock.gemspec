@@ -15,7 +15,7 @@ the current user in your rails controller can read/write the object they're
 attempting to access.
 DESC
   spec.summary       = "A simple authorization library."
-  spec.homepage      = "https://github.com/teamsnap/roadblock"
+  spec.homepage      = "http://teamsnap.github.io/roadblock"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
