@@ -2,16 +2,35 @@ module Roadblock
   class Stack
     NULL_AUTHORIZER_PROC = lambda { |object| false }
 
+    # The Stack allows you to create middleware layers of authorizer to reduce
+    # duplication, escape early, etc.
+    #
+    # @param auth_object [Object] the object to authorize for. Usually a user.
+    # @param scopes [Array<Symbol>] the scopes (if any) associated with the
+    #   auth_object.
+    #
+    # @return [self]
     def initialize(auth_object, scopes: [])
       self.auth_object = auth_object
       self.scopes = scopes
       self.authorizers = []
     end
 
+    # Adds one or more authorizers to the Stack.
+    #
+    # @param *auths [Authorizer] the authorizer(s) to add to the Stack.
+    #
+    # @return [Array<Authorizer>] the current stack.
     def add(*auths)
       self.authorizers = authorizers + auths
     end
 
+    # Checks if the given action can be performed on all the objects.
+    #
+    # @param action [Symbol] the action the authorize for.
+    # @param objects [Array<Object>] the objects to authorize against.
+    #
+    # @return [true, false]
     def can?(action, objects)
       objects = [*objects]
 
