@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Roadblock : A simple authorization library">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Roadblock</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/teamsnap/roadblock">View on GitHub</a>
+
+          <h1 id="project_title">Roadblock</h1>
+          <h2 id="project_tagline">A simple authorization library</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/teamsnap/roadblock/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/teamsnap/roadblock/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="roadblock" class="anchor" href="#roadblock" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadblock</h1>
+
+<p><a href="https://www.codeship.io/projects/25009"><img src="https://www.codeship.io/projects/33848a30-df96-0131-12c9-6668820c1116/status" alt="Codeship Status for teamsnap/roadblock"></a></p>
+
+<p><a href="http://badge.fury.io/rb/roadblock"><img src="https://badge.fury.io/rb/roadblock.png" alt="Gem Version"></a>
+<a href="https://codeclimate.com/github/teamsnap/roadblock"><img src="https://codeclimate.com/github/teamsnap/roadblock.png" alt="Code Climate"></a>
+<a href="https://coveralls.io/r/teamsnap/roadblock?branch=master"><img src="https://coveralls.io/repos/teamsnap/roadblock/badge.png?branch=master" alt="Coverage Status"></a>
+<a href="https://gemnasium.com/teamsnap/roadblock"><img src="https://gemnasium.com/teamsnap/roadblock.png" alt="Dependency Status"></a>
+<a href="http://opensource.org/licenses/MIT"><img src="http://img.shields.io/license/MIT.png?color=green" alt="License"></a></p>
+
+<p><a href="http://www.rubydoc.info/github/teamsnap/roadblock">Documentation</a></p>
+
+<p>A simple authorization library.</p>
+
+<p><img src="http://i.imgur.com/RzJlc7D.jpg" alt="Roadblock"></p>
+
+<p>Roadblock provides a simple interface for checking if a ruby object has the authority to interact with another object. The most obvious example being if the current user in your rails controller can read/write the object they're attempting to access.</p>
+
+<p>Nearly all authorization libraries require heavy weight configuration and tight integration with Rails. This library was created to provide the simplest solution to the problem without requiring any external dependencies. It doesn't require Rails or any of it's subcomponents and weighs in at less than 100 LOC for the actual implementation (less than 25 LOC if you don't care about authorizer stacks).</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'roadblock'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install roadblock
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">"</span>roadblock<span class="pl-pds">"</span></span>
+
+<span class="pl-k">class</span> <span class="pl-en">TeamAuthorizer</span>
+  <span class="pl-k">include</span> <span class="pl-s3">Roadblock</span>.authorizer
+
+  <span class="pl-k">def</span> <span class="pl-en">can_read?</span>(<span class="pl-vpf">team</span>)
+    scopes.include?(<span class="pl-s1"><span class="pl-pds">"</span>read<span class="pl-pds">"</span></span>) <span class="pl-k">&amp;&amp;</span>
+      auth_object.teams.include?(team)
+  <span class="pl-k">end</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">can_write?</span>(<span class="pl-vpf">team</span>)
+    scopes.include?(<span class="pl-s1"><span class="pl-pds">"</span>write_teams<span class="pl-pds">"</span></span>) <span class="pl-k">&amp;&amp;</span> (
+      auth_object.managed_teams.include?(team) <span class="pl-k">||</span>
+      auth_object.owned_teams.include?(team)
+    )
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+scopes <span class="pl-k">=</span> [<span class="pl-s1"><span class="pl-pds">"</span>read<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>write_teams<span class="pl-pds">"</span></span>] <span class="pl-c"># Optional oauth scopes</span>
+auth <span class="pl-k">=</span> <span class="pl-s3">TeamAuthorizer</span>.<span class="pl-k">new</span>(current_user, <span class="pl-c1">:scopes</span> =&gt; scopes)
+team <span class="pl-k">=</span> <span class="pl-s3">Team</span>.find(params[<span class="pl-c1">:id</span>])
+
+<span class="pl-c"># Scopes are optional, just don't pass any in if you don't want them.</span>
+
+auth.can?(<span class="pl-c1">:read</span>, team) <span class="pl-c"># or auth.can_read?(team)</span>
+auth.can?(<span class="pl-c1">:write</span>, team) <span class="pl-c"># or auth.can_write?(team)</span>
+
+<span class="pl-c"># When using the #can? syntax, you can pass in an enumerable</span>
+<span class="pl-c"># #can? will then tell you if the user is able to perform the</span>
+<span class="pl-c"># action on all of the objects. `true` they can, `false` they</span>
+<span class="pl-c"># cannot.</span>
+
+teams <span class="pl-k">=</span> <span class="pl-s3">Team</span>.where(<span class="pl-c1">:sport</span> =&gt; <span class="pl-c1">:hockey</span>)
+
+auth.can?(<span class="pl-c1">:read</span>, teams)
+auth.can?(<span class="pl-c1">:write</span>, teams)</pre></div>
+
+<h3>
+<a id="middleware" class="anchor" href="#middleware" aria-hidden="true"><span class="octicon octicon-link"></span></a>Middleware</h3>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">"</span>roadblock<span class="pl-pds">"</span></span>
+
+<span class="pl-k">class</span> <span class="pl-en">TeamAuthorizer</span>
+  <span class="pl-k">include</span> <span class="pl-s3">Roadblock</span>.authorizer
+
+  <span class="pl-k">def</span> <span class="pl-en">can_read?</span>(<span class="pl-vpf">team</span>)
+    auth_object.teams.include?(team)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-k">class</span> <span class="pl-en">AdminAuthorizer</span>
+  <span class="pl-k">include</span> <span class="pl-s3">Roadblock</span>.authorizer
+
+  <span class="pl-k">def</span> <span class="pl-en">can?</span>(<span class="pl-vpf">action</span>, <span class="pl-vpf">object</span>)
+    <span class="pl-k">if</span> auth_object.is_admin?
+      <span class="pl-c1">true</span>
+    <span class="pl-k">else</span>
+      <span class="pl-k">yield</span>(object)
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+stack <span class="pl-k">=</span> <span class="pl-s3">Roadblock</span>::<span class="pl-s3">Stack</span>.<span class="pl-k">new</span>(current_user, <span class="pl-c1">:scopes</span> =&gt; scopes)
+stack.add(<span class="pl-vo">AdminAuthorizer</span>, <span class="pl-vo">TeamAuthorizer</span>)
+
+<span class="pl-c"># Then use stack just as you would a standalone authorizer</span>
+
+stack.can?(<span class="pl-c1">:read</span>, team) <span class="pl-c"># or stack.can_read?(team)</span>
+stack.can?(<span class="pl-c1">:read</span>, teams) <span class="pl-c"># or stack.can_read?(teams)</span></pre></div>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="http://github.com/teamsnap/roadblock/fork">http://github.com/teamsnap/roadblock/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Roadblock maintained by <a href="https://github.com/teamsnap">teamsnap</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
