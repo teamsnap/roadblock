@@ -1,7 +1,8 @@
 # Roadblock
 
+[![Codeship Status for teamsnap/roadblock](https://www.codeship.io/projects/33848a30-df96-0131-12c9-6668820c1116/status)](https://www.codeship.io/projects/25009)
+
 [![Gem Version](https://badge.fury.io/rb/roadblock.png)](http://badge.fury.io/rb/roadblock)
-[ ![Codeship Status for teamsnap/roadblock](https://www.codeship.io/projects/33848a30-df96-0131-12c9-6668820c1116/status)](https://www.codeship.io/projects/25009)
 [![Code Climate](https://codeclimate.com/github/teamsnap/roadblock.png)](https://codeclimate.com/github/teamsnap/roadblock)
 [![Coverage Status](https://coveralls.io/repos/teamsnap/roadblock/badge.png?branch=master)](https://coveralls.io/r/teamsnap/roadblock?branch=master)
 [![Dependency Status](https://gemnasium.com/teamsnap/roadblock.png)](https://gemnasium.com/teamsnap/roadblock)
