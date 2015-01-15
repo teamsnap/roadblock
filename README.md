@@ -8,7 +8,7 @@
 [![Dependency Status](https://gemnasium.com/teamsnap/roadblock.png)](https://gemnasium.com/teamsnap/roadblock)
 [![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
 
-[Documentation](http://www.rubydoc.info/github/teamsnap/roadblock)
+[Documentation](http://www.rubydoc.info/gems/roadblock)
 
 A simple authorization library.
 
